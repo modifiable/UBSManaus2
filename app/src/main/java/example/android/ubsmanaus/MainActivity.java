@@ -1,8 +1,8 @@
 package example.android.ubsmanaus;
 
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -10,10 +10,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import example.android.ubsmanaus.Adapter.Adapter;
 import example.android.ubsmanaus.Model.Ubs;
+import example.android.ubsmanaus.util.HttpRetro;
+import retrofit2.*;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         adapter = new Adapter(this, ubsList);
 
-        getData();
+        getDataRetro();
 
         listView.setAdapter(adapter);
 
@@ -50,23 +51,31 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         });
     }
 
-    private void getData() {
+    private void getDataRetro(){
+        HttpRetro.getUbsClient().getUbs().enqueue(new Callback<List<Ubs>>() {
+            public void onResponse(Call<List<Ubs>> call, Response<List<Ubs>> response) {
+                if (response.isSuccessful()) {
+                    List<Ubs> ubsBody = response.body();
+                    ubsList.clear();
+                    for (Ubs ubs : ubsBody) {
+                        ubsList.add(ubs);
+                    }
+                    adapter.notifyDataSetChanged();
+                } else {
+                    System.out.println(response.errorBody());
+                }
+                swiperefresh.setRefreshing(false);
+            }
 
-        String[] nomes = {"UBS LUIZ MONTENEGRO", "UBS AJURICABA", "UBS REDENÇÃO", "UBS SANTOS DUMONT"};
-        String[] bairros = {"CHAPADA", "LÍRIO DO VALE", "COMPENSA", "PLANALTO"};
-
-        ubsList.clear();
-        for (int i=0; i<20; i++){
-            int nextInt = new Random().nextInt(4);
-            Ubs ubs = new Ubs(i, nomes[nextInt], "",  bairros[nextInt], "", "", "", "", "");
-            ubsList.add(ubs);
-        }
-        adapter.notifyDataSetChanged();
+            @Override
+            public void onFailure(Call<List<Ubs>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     @Override
     public void onRefresh() {
-        getData();
-
+        getDataRetro();
     }
 }
