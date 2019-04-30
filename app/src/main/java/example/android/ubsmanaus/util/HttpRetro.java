@@ -11,19 +11,19 @@ import retrofit2.http.GET;
 public class HttpRetro {
     private static final String BASE_URL = "https://restcountries.eu/";
 
-    //Inicializa Retrofit
-    public static UbsInterface getCidadeClient() {
+
+    public static CidadeInterface getCidadeClient() {
         Retrofit restAdapter = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        return restAdapter.create(UbsInterface.class);
+        return restAdapter.create(CidadeInterface.class);
     }
 
-    // Interface com métodos de requisicao
-    public interface UbsInterface {
-        @GET("rest/v1/all.")
+
+    public interface CidadeInterface {
+        @GET("rest/v1/all")
         Call<List<Cidade>> getCidade();
     }
 }

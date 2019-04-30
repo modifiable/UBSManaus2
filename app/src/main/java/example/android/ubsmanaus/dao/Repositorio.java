@@ -25,14 +25,10 @@ public class Repositorio {
         cv.put(SQLHelper.COLUNA_NAME, cidade.name);
         cv.put(SQLHelper.COLUNA_CAPITAL, cidade.capital);
         cv.put(SQLHelper.COLUNA_REGION, cidade.region);
-        cv.put(SQLHelper.COLUNA_POPULATION, cidade.population);
-        cv.put(SQLHelper.COLUNA_AREA, cidade.area);
-        cv.put(SQLHelper.COLUNA_LANGUAGES, cidade.languages);
-        cv.put(SQLHelper.COLUNA_RELEVANCE, cidade.relevance);
+
 
         db.insert(SQLHelper.TABELA_CIDADE, null, cv);
         db.close();
-        return;
     }
 
     public void excluirAll(){
@@ -55,26 +51,12 @@ public class Repositorio {
             String capital = cursor.getString(
                     cursor.getColumnIndex(SQLHelper.COLUNA_CAPITAL)
             );
-            String population = cursor.getString(
-                    cursor.getColumnIndex(SQLHelper.COLUNA_POPULATION)
-            );
-            String area = cursor.getString(
-                    cursor.getColumnIndex(SQLHelper.COLUNA_AREA)
-            );
-            String languages = cursor.getString(
-                    cursor.getColumnIndex(SQLHelper.COLUNA_LANGUAGES)
-            );
-            String relevance = cursor.getString(
-                    cursor.getColumnIndex(SQLHelper.COLUNA_RELEVANCE)
-            );
             String region = cursor.getString(
                     cursor.getColumnIndex(SQLHelper.COLUNA_REGION)
             );
-            String latlng = cursor.getString(
-                    cursor.getColumnIndex(SQLHelper.COLUNA_LATLNG)
-            );
 
-            Cidade cidade = new Cidade(name,capital, region, population,area,languages,relevance, latlng);
+
+            Cidade cidade = new Cidade(name,capital, region);
             list.add(cidade);
         }
         cursor.close();
