@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import example.android.ubsmanaus.Adapter.Adapter;
-import example.android.ubsmanaus.Model.Ubs;
+import example.android.ubsmanaus.Model.Cidade;
 import example.android.ubsmanaus.dao.MapsActivity;
 import example.android.ubsmanaus.dao.Repositorio;
 import example.android.ubsmanaus.util.HttpRetro;
@@ -29,7 +29,7 @@ import retrofit2.*;
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private Adapter adapter;
-    private List<Ubs> ubsList;
+    private List<Cidade> cidadeList;
     private ListView listView;
     private SwipeRefreshLayout swiperefresh;
     Repositorio db;
@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         listView = (ListView) findViewById(R.id.listView);
 
-        ubsList = new ArrayList<Ubs>();
+        cidadeList = new ArrayList<Cidade>();
 
-        adapter = new Adapter(this, ubsList);
+        adapter = new Adapter(this, cidadeList);
         db = new Repositorio(getBaseContext());
         getDataRetro();
 
@@ -60,15 +60,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 hasPermission();
 
                 Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-                intent.putExtra("ubs",ubsList.get(position));
+                intent.putExtra("cidade",cidadeList.get(position));
                 startActivity(intent);
             }
         });
     }
 
     private void getDataSqlite() {
-        ubsList.clear();
-        ubsList.addAll(db.listarUbs());
+        cidadeList.clear();
+        cidadeList.addAll(db.listarCidade());
         adapter.notifyDataSetChanged();
     }
 
@@ -78,17 +78,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         // se tiver conexao faz get, senao pega do sqlite
         if (isConnected()) {
-            HttpRetro.getUbsClient().getUbs().enqueue(new Callback<List<Ubs>>() {
-                public void onResponse(Call<List<Ubs>> call, Response<List<Ubs>> response) {
+            HttpRetro.getCidadeClient().getCidade().enqueue(new Callback<List<Cidade>>() {
+                public void onResponse(Call<List<Cidade>> call, Response<List<Cidade>> response) {
                     if (response.isSuccessful()) {
-                        List<Ubs> ubsBody = response.body();
-                        ubsList.clear();
+                        List<Cidade> cidadeBody = response.body();
+                        cidadeList.clear();
 
                         db.excluirAll();
 
-                        for (Ubs ubs : ubsBody) {
-                            ubsList.add(ubs);
-                            db.inserir(ubs);
+                        for (Cidade cidade : cidadeBody) {
+                            cidadeList.add(cidade);
+                            db.inserir(cidade);
                         }
                         adapter.notifyDataSetChanged();
                     } else {
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 }
 
                 @Override
-                public void onFailure(Call<List<Ubs>> call, Throwable t) {
+                public void onFailure(Call<List<Cidade>> call, Throwable t) {
                     t.printStackTrace();
                 }
 
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         }else {
             swiperefresh.setRefreshing(false);
-            Toast.makeText(this,"Sem Conexão, listando Ubs do banco...",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Sem Conexão, listando Cidade do banco...",Toast.LENGTH_SHORT).show();
             getDataSqlite();
         }
 

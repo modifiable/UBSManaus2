@@ -9,28 +9,28 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import example.android.ubsmanaus.Model.Ubs;
+import example.android.ubsmanaus.Model.Cidade;
 import example.android.ubsmanaus.R;
 
 
-public class Adapter extends ArrayAdapter<Ubs> {
+public class Adapter extends ArrayAdapter<Cidade> {
 
-    public Adapter(Context context, List<Ubs> objects) {
+    public Adapter(Context context, List<Cidade> objects) {
         super(context, 0, objects);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Ubs ubs = getItem(position);
+        Cidade cidade = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_ubs, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_cidade, parent, false);
         }
 
         TextView tvNome = (TextView) convertView.findViewById(R.id.nome);
-        TextView tvBairro = (TextView) convertView.findViewById(R.id.bairro);
+        TextView tvCapital = (TextView) convertView.findViewById(R.id.bairro);
 
-        tvNome.setText(ubs.nome);
-        tvBairro.setText(ubs.bairro);
+        tvNome.setText(cidade.name);
+        tvCapital.setText(cidade.capital);
 
         return convertView;
     }

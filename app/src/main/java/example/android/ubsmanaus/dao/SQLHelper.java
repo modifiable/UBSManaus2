@@ -6,18 +6,17 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SQLHelper extends SQLiteOpenHelper {
 
-    private static final String NOME_BANCO = "dbUbs";
+    private static final String NOME_BANCO = "dbCidade";
     private static final int VERSAO_BANCO = 1;
-    public static final String TABELA_UBS = "ubs_tabela";
-    public static final String COLUNA_ID = "_id";
-    public static final String COLUNA_NOME = "nome";
-    public static final String COLUNA_ENDERECO = "endereco";
-    public static final String COLUNA_BAIRRO = "bairro";
-    public static final String COLUNA_LATITUDE = "latitude";
-    public static final String COLUNA_LONGITUDE = "longitude";
-    public static final String COLUNA_SERVICOS = "servicos";
-    public static final String COLUNA_URL_FOTO = "url_foto";
-    public static final String COLUNA_ZONA = "zona";
+    public static final String TABELA_CIDADE = "cidade_tabela";
+    public static final String COLUNA_NAME = "name";
+    public static final String COLUNA_CAPITAL = "capital";
+    public static final String COLUNA_REGION = "region";
+    public static final String COLUNA_POPULATION = "population";
+    public static final String COLUNA_AREA = "area";
+    public static final String COLUNA_LANGUAGES = "languages";
+    public static final String COLUNA_RELEVANCE = "relevance";
+
 
 
     public SQLHelper(Context context) {
@@ -26,16 +25,14 @@ public class SQLHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(
-                "CREATE TABLE " + TABELA_UBS + " ( " +
-                        COLUNA_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                        COLUNA_NOME + " TEXT, " +
-                        COLUNA_ENDERECO + " TEXT, " +
-                        COLUNA_BAIRRO + " TEXT, " +
-                        COLUNA_LATITUDE + " TEXT, " +
-                        COLUNA_LONGITUDE + " TEXT, " +
-                        COLUNA_SERVICOS + " TEXT, " +
-                        COLUNA_URL_FOTO + " TEXT, " +
-                        COLUNA_ZONA + " TEXT)"
+                "CREATE TABLE " + TABELA_CIDADE + " ( " +
+                        COLUNA_NAME + " TEXT, " +
+                        COLUNA_CAPITAL+ " TEXT, " +
+                        COLUNA_REGION+ " TEXT, " +
+                        COLUNA_POPULATION + " TEXT, " +
+                        COLUNA_AREA + " TEXT, " +
+                        COLUNA_LANGUAGES + " TEXT, " +
+                        COLUNA_RELEVANCE + " TEXT, "
         );
 
     }

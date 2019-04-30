@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import example.android.ubsmanaus.Model.Ubs;
+import example.android.ubsmanaus.Model.Cidade;
 
 public class Repositorio {
 
@@ -19,22 +19,21 @@ public class Repositorio {
         helper = new SQLHelper(ctx);
     }
 
-    public long inserir(Ubs ubs){
+    public long inserir(Cidade cidade){
         db = helper.getReadableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(SQLHelper.COLUNA_NOME, ubs.nome);
-        cv.put(SQLHelper.COLUNA_ENDERECO, ubs.endereco);
-        cv.put(SQLHelper.COLUNA_BAIRRO, ubs.bairro);
-        cv.put(SQLHelper.COLUNA_LATITUDE, ubs.latitude);
-        cv.put(SQLHelper.COLUNA_LONGITUDE, ubs.longitude);
-        cv.put(SQLHelper.COLUNA_SERVICOS, ubs.servicos);
-        cv.put(SQLHelper.COLUNA_URL_FOTO, ubs.url_foto);
-        cv.put(SQLHelper.COLUNA_ZONA, ubs.zona);
+        cv.put(SQLHelper.COLUNA_NAME, cidade.name);
+        cv.put(SQLHelper.COLUNA_CAPITAL, cidade.capital);
+        cv.put(SQLHelper.COLUNA_REGION, cidade.region);
+        cv.put(SQLHelper.COLUNA_POPULATION, cidade.population);
+        cv.put(SQLHelper.COLUNA_AREA, cidade.area);
+        cv.put(SQLHelper.COLUNA_LANGUAGES, cidade.languages);
+        cv.put(SQLHelper.COLUNA_RELEVANCE, cidade.relevance);
 
-        long id = db.insert(SQLHelper.TABELA_UBS, null, cv);
+        long id = db.insert(SQLHelper.TABELA_CIDADE, null, cv);
 
         if(id != -1){
-            ubs.id = id;
+            cidade.id = id;
         }
         db.close();
         return id;
@@ -42,48 +41,45 @@ public class Repositorio {
 
     public void excluirAll(){
         db = helper.getWritableDatabase();
-        db.delete(SQLHelper.TABELA_UBS, null, null);
+        db.delete(SQLHelper.TABELA_CIDADE, null, null);
         db.close();
     }
 
-    public List<Ubs> listarUbs() {
-        String sql = "SELECT * FROM " + SQLHelper.TABELA_UBS;
+    public List<Cidade> listarCidade() {
+        String sql = "SELECT * FROM " + SQLHelper.TABELA_CIDADE;
         db = helper.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
-        List<Ubs> list = new ArrayList();
+        List<Cidade> list = new ArrayList();
 
         while (cursor.moveToNext()) {
             long id = cursor.getLong(
                     cursor.getColumnIndex(SQLHelper.COLUNA_ID)
             );
-            String nome = cursor.getString(
-                    cursor.getColumnIndex(SQLHelper.COLUNA_NOME)
+            String name = cursor.getString(
+                    cursor.getColumnIndex(SQLHelper.COLUNA_NAME)
             );
-            String endereco = cursor.getString(
-                    cursor.getColumnIndex(SQLHelper.COLUNA_ENDERECO)
+            String capital = cursor.getString(
+                    cursor.getColumnIndex(SQLHelper.COLUNA_CAPITAL)
             );
-            String bairro = cursor.getString(
-                    cursor.getColumnIndex(SQLHelper.COLUNA_BAIRRO)
+            String population = cursor.getString(
+                    cursor.getColumnIndex(SQLHelper.COLUNA_POPULATION)
             );
-            String latitude = cursor.getString(
-                    cursor.getColumnIndex(SQLHelper.COLUNA_LATITUDE)
+            String area = cursor.getString(
+                    cursor.getColumnIndex(SQLHelper.COLUNA_AREA)
             );
-            String longitude = cursor.getString(
-                    cursor.getColumnIndex(SQLHelper.COLUNA_LONGITUDE)
+            String languages = cursor.getString(
+                    cursor.getColumnIndex(SQLHelper.COLUNA_LANGUAGES)
             );
-            String servicos = cursor.getString(
-                    cursor.getColumnIndex(SQLHelper.COLUNA_SERVICOS)
+            String relevance = cursor.getString(
+                    cursor.getColumnIndex(SQLHelper.COLUNA_RELEVANCE)
             );
-            String url_foto = cursor.getString(
-                    cursor.getColumnIndex(SQLHelper.COLUNA_URL_FOTO)
-            );
-            String zona = cursor.getString(
-                    cursor.getColumnIndex(
-                            SQLHelper.COLUNA_ZONA)
+            String region = cursor.getString(
+                    cursor.getColumnIndex(SQLHelper.COLUNA_REGION)
             );
 
-            Ubs ubs = new Ubs(id, nome, endereco, bairro, latitude, longitude, servicos, url_foto, zona);
-            list.add(ubs);
+            Cidade cidade = new Cidade(name,capital, region, population,area,languages,relevance,
+                    "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+            list.add(cidade);
         }
         cursor.close();
         return list;
