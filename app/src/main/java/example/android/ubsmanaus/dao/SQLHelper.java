@@ -16,7 +16,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     public static final String COLUNA_AREA = "area";
     public static final String COLUNA_LANGUAGES = "languages";
     public static final String COLUNA_RELEVANCE = "relevance";
-
+    public static final String COLUNA_LATLNG = "latlng";
 
 
     public SQLHelper(Context context) {
@@ -32,7 +32,8 @@ public class SQLHelper extends SQLiteOpenHelper {
                         COLUNA_POPULATION + " TEXT, " +
                         COLUNA_AREA + " TEXT, " +
                         COLUNA_LANGUAGES + " TEXT, " +
-                        COLUNA_RELEVANCE + " TEXT, "
+                        COLUNA_RELEVANCE + " TEXT, " +
+                        COLUNA_LATLNG + "TEXT)"
         );
 
     }
