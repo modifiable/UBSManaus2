@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                hasPermission();,
+                hasPermission();
 
                 Intent intent = new Intent(MainActivity.this, MapsActivity.class);
                 intent.putExtra("cidade",cidadeList.get(position));
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         for (Cidade cidade : cidadeBody) {
                             cidadeList.add(cidade);
                             db.inserir(cidade);
-
+                        }
                         adapter.notifyDataSetChanged();
                     } else {
                         System.out.println(response.errorBody());

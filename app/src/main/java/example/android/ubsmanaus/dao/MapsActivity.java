@@ -11,19 +11,19 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import example.android.ubsmanaus.Model.Ubs;
+import example.android.ubsmanaus.Model.Cidade;
 import example.android.ubsmanaus.R;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private Ubs ubs;
+    private Cidade cidade;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
         //pega ubs passada pela main
-        ubs = (Ubs) getIntent().getSerializableExtra("ubs");
+        cidade = (Cidade) getIntent().getSerializableExtra("cidade");
 
         //inicializa mapFragment
         SupportMapFragment mapFragment =
@@ -33,12 +33,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
+        double lat = 0.0;
+        double lng = 0.0;
+        // colocar o parser
         //coordenadas da ubs
-        LatLng ubslatlng = new LatLng(Double.parseDouble(ubs.latitude), Double.parseDouble(ubs.longitude));
+        LatLng cidadelatlng = new LatLng(lat, lng);
 
         //adiciona marcador e move a camera do mapa p ele
-        googleMap.addMarker(new MarkerOptions().position(ubslatlng).title(ubs.nome));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubslatlng, 12.0f));
+        googleMap.addMarker(new MarkerOptions().position(cidadelatlng).title(cidade.name));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cidadelatlng, 12.0f));
     }
 }
