@@ -19,7 +19,7 @@ public class Repositorio {
         helper = new SQLHelper(ctx);
     }
 
-    public long inserir(Cidade cidade){
+    public void inserir(Cidade cidade){
         db = helper.getReadableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(SQLHelper.COLUNA_NAME, cidade.name);
@@ -30,13 +30,9 @@ public class Repositorio {
         cv.put(SQLHelper.COLUNA_LANGUAGES, cidade.languages);
         cv.put(SQLHelper.COLUNA_RELEVANCE, cidade.relevance);
 
-        long id = db.insert(SQLHelper.TABELA_CIDADE, null, cv);
-
-        if(id != -1){
-            cidade.id = id;
-        }
+        db.insert(SQLHelper.TABELA_CIDADE, null, cv);
         db.close();
-        return id;
+        return;
     }
 
     public void excluirAll(){
@@ -52,9 +48,7 @@ public class Repositorio {
         List<Cidade> list = new ArrayList();
 
         while (cursor.moveToNext()) {
-            long id = cursor.getLong(
-                    cursor.getColumnIndex(SQLHelper.COLUNA_ID)
-            );
+
             String name = cursor.getString(
                     cursor.getColumnIndex(SQLHelper.COLUNA_NAME)
             );
@@ -76,9 +70,11 @@ public class Repositorio {
             String region = cursor.getString(
                     cursor.getColumnIndex(SQLHelper.COLUNA_REGION)
             );
+            String latlng = cursor.getString(
+                    cursor.getColumnIndex(SQLHelper.COLUNA_LATLNG)
+            );
 
-            Cidade cidade = new Cidade(name,capital, region, population,area,languages,relevance,
-                    "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+            Cidade cidade = new Cidade(name,capital, region, population,area,languages,relevance, latlng);
             list.add(cidade);
         }
         cursor.close();
