@@ -53,7 +53,7 @@ public class Repositorio {
 
         while (cursor.moveToNext()) {
             long id = cursor.getLong(
-                    cursor.getColumnIndex(SQLHelper.COLUNA_I)
+                    cursor.getColumnIndex(SQLHelper.COLUNA_ID)
             );
             String name = cursor.getString(
                     cursor.getColumnIndex(SQLHelper.COLUNA_NAME)
